@@ -26,7 +26,12 @@
         state: directory
         mode: '0755'
         
-    - name: copy Dockerfile
+    - name: copy Dockerfile from my github to server
+      get_url:
+        url: "URLFROMGITHUB" 
+        dest: "/root/demo-dockerfile/Dockerfile"
+
+
       copy:
         src: "./Dockerfile" 
         dest: "/root/demo-dockerfile/Dockerfile"
