@@ -1,0 +1,2 @@
+[SERVER_YCLOUD]
+0.0.0.0
