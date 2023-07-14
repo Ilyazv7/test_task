@@ -1,1 +1,14 @@
-
+pipeline{
+  agent any
+  stages{
+    stage('ansible_start'){
+      steps{
+        git ''
+      }
+    }
+    stage('ansible_playbook'){
+      steps{
+        ///
+      }
+    }
+}
