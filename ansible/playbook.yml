@@ -1,0 +1,40 @@
+---
+- name: Wordpress install and start on server
+  hosts: all
+  become: yes
+    
+  tasks:
+    - name: Add Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: latest
+  
+    - name: Add Docker Repository
+      apt_repository:
+        reposit: deb https://download.docker.com/linux/ubuntu focal stable
+        state: latest
+  
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+        
+    - name: create build directory
+      file:
+        path: /root/demo-dockerfile
+        state: directory
+        mode: '0755'
+        
+    - name: copy Dockerfile
+      copy:
+        src: "./Dockerfile" 
+        dest: "/root/demo-dockerfile/Dockerfile"
+        mode: "0555"
+      
+    - name: build container image
+      docker_image:
+        name: startwordpress
+        build:
+          path: /root/demo-dockerfile
+          source: build
