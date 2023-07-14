@@ -4,7 +4,7 @@ pipeline{
     stage('ansible_start'){
       steps{
         git branch: 'main', url:
-        ""
+        "https://github.com/Ilyazv7/test_task/blob/main/ansible/playbook.yml"
       }
     }
     stage('ansible_playbook'){
@@ -12,4 +12,5 @@ pipeline{
         sh 'ansible-playbook playbook.yml' 
       }
     }
+  }
 }
