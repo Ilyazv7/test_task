@@ -28,14 +28,8 @@
         
     - name: copy Dockerfile from my github to server
       get_url:
-        url: "URLFROMGITHUB" 
+        url: "https://github.com/Ilyazv7/test_task/blob/main/dockerfile" 
         dest: "/root/demo-dockerfile/Dockerfile"
-
-
-      copy:
-        src: "./Dockerfile" 
-        dest: "/root/demo-dockerfile/Dockerfile"
-        mode: "0555"
       
     - name: build container image
       docker_image:
