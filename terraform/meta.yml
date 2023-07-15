@@ -1,0 +1,11 @@
+#cloud-config
+datasource:
+ Ec2:
+  strict_id: false
+ssh_pwauth: no
+users:
+- name: ilyatask
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDDzxB1lvCek23yEWP5vhpF9G3PYeUgszG47bAV6iLGW4SUfn9iNatmcRBFprRfJCEskUPrdqw19hLBzJeVxUzQAXTEWV9a6L4z72XQ5nL1OLu0u9laljL4At6v8SEf6XkmqeGcT4hRBtGHgRQ1mQC7un/Aff/pdTZoCa71O16dG6cYhQM3yqyrfDI6Vu3mflEJsxN2sMK6ydNwsjZtYi5teO6EMo+gGmuVk8zra1mFByXa9Wvq3Th1pkB/gPEVnth/f7vQYrj1B1SimJvovEOqaOOiLcrFLodT2vhakwTDbrYDOtNDIQgVC5xqskRQPi1Il1fdZlUQXgS78jaHP3PkiLOZ/IdG8uTthPCNqCCsBRjaZSdnfdsaVrCa+Ar1LHiPdHy8HQh2mO45XM/GBoQZdKYgeYVO49m8v0xlANpB4Hzr3Ax90dWPholkbOdiJ65mITLvqwk+wb426Y336n/s6fdq7p11yBYZujaBG7p7dBHqdMpCT1H9UxAZDBhlErE= 79630@LAPTOP-4GH6DJDS
