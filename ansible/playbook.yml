@@ -1,39 +1,70 @@
----
+---                                                                                           ---
 - name: Wordpress install and start on server
   hosts: all
   become: yes
-    
+
   tasks:
-    - name: Add Docker
+    - name: install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+          - apache2
+        state: latest
+        update_cache: yes
+
+    - name: Add Docker GPG apt Key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
-        state: latest
-  
+        state: present
+
     - name: Add Docker Repository
       apt_repository:
-        reposit: deb https://download.docker.com/linux/ubuntu focal stable
-        state: latest
-  
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
     - name: Update apt and install docker-ce
       apt:
         name: docker-ce
-        state: latest
+        state: present
         update_cache: true
-        
-    - name: create build directory
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Create directory
       file:
-        path: /root/demo-dockerfile
+        path: /var/www/8080
         state: directory
-        mode: '0755'
-        
-    - name: copy Dockerfile from my github to server
+
+    - name: copy docker-compose to server
+      copy:
+        src: /home/ilyazv/docker-compose.yml
+        dest: /var/www/8080
+        mode: '0644'
+
+    - name: Install docker-compose from official github repo
+      remote_user: ansible_ubuntu_demo
       get_url:
-        url: "https://github.com/Ilyazv7/test_task/blob/main/dockerfile" 
-        dest: "/root/demo-dockerfile/Dockerfile"
-      
-    - name: build container image
-      docker_image:
-        name: startwordpress
-        build:
-          path: /root/demo-dockerfile
-          source: build
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x'
+
+    - name: Install docker-compose python package
+      ansible.builtin.pip:
+        name: docker-compose
+
+    - name: Docker compose build the containers
+      docker_compose:
+        project_src: /var/www/8080
+        files:
+          - "docker-compose.yml"
+        state: present
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
