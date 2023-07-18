@@ -1,32 +1,30 @@
 ---
-version: "3"
-
+version: '3.3'
 services:
-  mysql_db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password_root
-      MYSQL_DATABASE: wordpress_database
-      MYSQL_USER: wordpress_user
-      MYSQL_PASSWORD: wordpress_user_password
-    volumes:
- - mysql:/var/lib/mysql
-
-  wordpress:
-    depends_on:
- - mysql_db
-    image: wordpress:latest
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      WORDPRESS_DB_HOST: mysql_db:3306
-      WORDPRESS_DB_USER: wordpress_user
-      WORDPRESS_DB_PASSWORD: wordpress_user_password
-      WORDPRESS_DB_NAME: name_your_wordpress_database
-    volumes:
-      ["./:/var/www/html"]
-
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     volumes:
+       - wordpress_files:/var/www/8080
+     ports:
+       - "8080:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: my_wordpress_db_password
+       WORDPRESS_DB_NAME: wordpress
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: my_db_root_password
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: my_wordpress_db_password
 volumes:
-  mysql: {}
+    wordpress_files:
+    db_data:
