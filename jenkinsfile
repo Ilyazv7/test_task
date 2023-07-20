@@ -1,0 +1,10 @@
+pipeline{
+    agent any
+    stages{
+        stage('ansible_playbook'){
+            steps{
+                ansiblePlaybook credentialsId: 'ilyataskk', installation: 'Ansible', inventory: '/home/ilyataskk/hosts.txt', playbook: '/home/ilyataskk/playbook.yml'
+            }
+        }
+    }
+}
