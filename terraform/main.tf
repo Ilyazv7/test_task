@@ -27,8 +27,8 @@ data "yandex_compute_image" "ubuntu_image" {
   family = "ubuntu-2004-lts"
 }
 
-resource "yandex_compute_instance" "devserver" {
-  name        = "devserver"
+resource "yandex_compute_instance" "devtaskserver" {
+  name        = "devtaskserver"
   platform_id = "standard-v1"
 
   resources {
